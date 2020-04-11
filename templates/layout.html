@@ -1,0 +1,103 @@
+<html>
+	<head>
+		<title>Teemo - {%block title%}{%endblock%}</title>
+		<link rel='stylesheet' href="{{url_for('static', filename='css/bootstrap.css')}}">
+		<link rel="icon" href="{{url_for('static', filename='img/favicon.ico')}}">
+		<link rel='stylesheet' href="{{url_for('static', filename='css/app.css')}}">
+		<script src="{{url_for('static', filename='js/user_select.js')}}"></script>
+		<script type="text/javascript">
+			const api_url = "{{url_for('get_members_data')}}"
+		</script>
+	</head>
+	<body class='bg-beige-yellow'>
+		<header class="text-center">
+			<div class='row'>
+				<div class='col-4'>
+				</div>
+				<div class='col-2 pt-4 text-danger'>
+					<h1 class='display-1'>Teemo</h1>
+				</div>
+				<div class='col-2'>
+					<a href="{{url_for('home')}}">
+					<img src="{{url_for('static', filename='img/teemo.png')}}"/></a>
+				</div>
+				<div class='col-4'>
+				</div>
+			</div>
+		</header>
+		<nav class='bg-beige-dark'>
+	  		<ul class="nav justify-content-center text-warning">
+  				<li class="nav-item">
+    				<a class="nav-link text-warning" href="{{url_for('home')}}">Home</a>
+  				</li>
+  				<li class="nav-item">
+    				<a class="nav-link text-warning" href="{{url_for('team')}}">Team</a>
+  				</li>
+  				<li class="nav-item">
+    				<a class="nav-link text-warning" href="{{url_for('duties')}}">Duties</a>
+  				</li>
+  				<li class="nav-item">
+    				<a class="nav-link disabled" href="#">
+    				{%if session['is_logged']%}
+    					Welcome {{session['member_name']}}
+    				{%else%}
+    					Welcome Guest
+    				{%endif%}
+    				</a>
+  				</li>
+  				{% if session['is_logged'] %}
+  				<li class="nav-item">
+  						<a href="{{url_for('logout')}}" class="nav-link text-warning">Logout</a>
+  				</li>
+  				{%endif%}
+			</ul>
+		</nav>
+		{%if session['is_logged'] == False %}
+		<nav class='bg-beige-blue'>
+			<ul class="nav justify-content-center">
+				<li class="nav-item">
+					<form action="{{url_for('login')}}" method='POST'>
+  						<div class='form row pt-3'>
+  							<div class='form col-9 '>
+	  							<select required class='form-control form-control-sm' id='user_select' name='user_select'>
+	  								<option value="" disabled selected hidden>Who Are You?</option>
+	  							</select>
+	  						</div>
+	  						<div class='form col-3 mb-0 pb-0'>
+	  							<button type='submit' class='btn btn-outline-danger btn-sm'>Login</button>
+	  						</div>
+	  					</div>
+	  				</form>
+				</li>
+			</ul>
+		</nav>
+		{%endif%}
+
+
+		<div class='row bg-beige-light'>
+			<div class='col-2'>
+			</div>
+			<div class='col-8 text-center'>
+				{% for category, message in get_flashed_messages(with_categories=true) %}
+				<div class='col-12'>
+					<div class='alert alert-{{category}}' role='alert'>
+						{{message}}
+					</div>
+				</div>
+				{%endfor%}
+				<div class='container'>
+					<h4 class='display-4 text-purple'>{{self.title()}}</h4>
+					{%block content%}
+					{%endblock%}
+				</div>
+			</div>
+			<div class='col-2'>
+			</div>
+		</div>
+		<footer class='page-footer bg-beige-dark text-warning'>
+			<div class='footer-copyright text-center'>
+				<a href="{{url_for('home')}}"><img src="{{url_for('static', filename='img/teemo.png')}}" width=32 height=32 /></a><br/>Ⓒ Ofir Barkay & Corona, 2020 Ⓒ
+			</div>
+		</footer>
+	</body>
+</html>

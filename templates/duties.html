@@ -1,0 +1,79 @@
+{%extends 'layout.html'%}
+{%block title%}
+	Duties View
+{%endblock%}
+{%block content%}
+<div class='container text-purple'>
+	<table class='table table-light table-striped table-bordered text-center text-purple'>
+		<thead class='thead-dark'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					Description
+				</th>
+				<th>
+					Lies with
+				</th>
+				<th>
+					Last Execution
+				</th>
+			</tr>
+		</thead> 
+		{%for duty in duties%}
+		<tr>
+			<td>
+				{{duty.id}}
+			</td>
+			<td>
+				<a href="{{url_for('duty', duty_id=duty.id)}}" class='badge badge-warning'>{{duty.name}}</a>
+			</td>
+			<td>
+				{{duty.description}}
+			</td>
+			<td>
+				<span class='badge badge-success'>{{duty.member_in_charge.name}}</span>
+			</td>
+			<td>
+				<ul class='list-group list-group-flush'>
+					{%for execution in duty.executions[-1:]%}
+					<span class="badge badge-danger badge-pill"><strong>{{execution.executer.name}}</strong> @ {{execution.execution_time}}</span>
+					{%endfor%}
+				</ul>
+			</td>
+		</tr>
+		{%endfor%}
+	</table>
+	{% if session['is_logged'] %}
+		<hr>
+		<h5 class='display-5'>Create New Duty</h5>
+		<form action="{{url_for('add_duty')}}" method='POST' id='add_duty'>
+			<div class='form-row'>
+				<div class='form-group col-4'>
+					<lable for='duty_name'>Name:</lable>
+					<input type='text' id="duty_name" name='name' placeholder="Duty Name" class='form-control'/>
+				</div>
+				<div class='form-group col-4'>
+					<lable for='duty_desc'>Description:</lable>
+					<input type='text' id='duty_desc' name='description' placeholder="Duty Description" class='form-control'/>
+				</div>
+				<div class='form-group col-4'>
+					<lable for='first_member'>Assign First Member:</lable>
+					<select class='form-control' id='user_select' name='assigned_member_id'>
+						<option selected value='-1'>Random</option>
+					</select>
+				</div>
+			</div>
+			<div class='form-row'>
+				<div class='col-12'>
+					<button type='submit'class='btn btn-warning'>Create!</button>
+				</div>
+			</div>
+		</form>
+	{%endif%}
+</div>
+{%endblock%}

@@ -1,0 +1,64 @@
+{%extends 'layout.html'%}
+{%block title%}
+	Team View
+{%endblock%}
+{%block content%}
+<div class='container text-purple'>
+	<table class='table table-light table-striped table-bordered text-center text-purple'>
+		<thead class='thead-dark'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Name
+				</th>
+				<th>
+					In Charge Of
+				</th>
+				<th>
+					Last Execution
+				</th>
+			</tr>
+		</thead>
+		{%for team_member in team_members%}
+		<tr>
+			<td>
+				{{team_member.id}}
+			</td>
+			<td>
+				<span class='badge badge-success'>{{team_member.name}}</span>
+			</td>
+			<td>
+				{%for duty in team_member.duties %}
+					<a href="{{url_for('duty', duty_id=duty.id)}}" class='badge badge-warning'>{{duty.name}}</a>
+				{%endfor%}
+			</td>
+			<td>
+				{%for execution in team_member.executions[-1:]%}
+					<span class='badge badge-danger'><strong>{{execution.duty.name}}</strong> @ {{execution.execution_time}}</span>
+				{%endfor%}
+			</td>
+		</tr>
+		{%endfor%}
+	</table>
+	{% if session['is_logged'] or team_members|length() == 0 %}
+		<hr>
+		<h5 class='display-5'>Add New Member</h5>
+		<form action="{{url_for('add_member')}}" method='POST' id='add_member'>
+			<div class='form-row'>
+				<div class='form-group col-4'>
+				</div>
+				<div class='form-group col-3'>
+					<input type='text' name='name' id='name' placeholder="Member Full Name" class='form-control' required/>
+				</div>
+				<div class='form-group col-1'>
+					<button type='submit' class='btn btn-success'>Add!</button>
+				</div>
+				<div class='form-group col-4'>
+				</div>
+			</div>
+		</form>
+	{%endif%}
+</div>
+{%endblock%}

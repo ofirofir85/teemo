@@ -1,0 +1,113 @@
+{%extends 'layout.html'%}
+{%block title%}{{duty.name}}{%endblock%}
+{%block content%}
+<table class='table table-sm table-light table-striped table-bordered text-center text-purple'>
+	<tr>
+		<thead class='thead-dark'>
+			<tr>
+				<th>
+					Field
+				</th>
+				<th>
+					Info/Action
+				</th>
+			</tr>
+		</thead>
+		<td>
+			Name
+		</td>
+		<td>
+			<span class='badge badge-warning'>{{duty.name}}</span>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Description
+		</td>
+		<td>
+			{{duty.description}}
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Lies With
+		</td>
+		<td>
+			<span class='badge badge-success'>{{duty.member_in_charge.name}}</span>
+		</td>
+	</tr>
+	{% if session['member_id'] == duty.member_id_in_charge %}
+	<tr>
+		<td>
+			Execute
+		</td>
+		<td>
+			<a href="{{url_for('execute_duty', duty_id=duty.id)}}" class='btn btn-sm btn-outline-purple pt-0 pb-0'>Execute</a>
+		</td>
+	</tr>
+	{%endif%}
+	<tr>
+		<td>
+			Change Assignment
+		</td>
+		<td>
+			<form action="{{url_for('change_duty', duty_id=duty.id)}}" method="post" class='mb-0 pb-0'>
+				<div class='form row'>
+					<div class='form col-4'>
+					</div>
+					<div class='form col-3'>
+						<select class='form-control-sm' name='assigned_member_id' id='user_select'>
+							<option value='-1' selected>Next In Queue</option>
+						</select>
+					</div>
+					<div class='form col-1'>
+						<button type='submit' class='btn btn-sm btn-outline-warning'>Assign</button> 
+					</div>
+				</div>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Queue Query
+		</td>
+		<td>
+			<form action="{{url_for('duty_query', duty_id=duty.id)}}" method='post' class='pb-0 mb-0'>
+				<div class='form row mb-1'>
+					<div class='form col-1'>
+					</div>
+					<div class='form col-10'>
+						<div class='form-group pb-0 mb-0'>
+							<textarea name='query' class='form-control' cols=2 rows=3>{{duty.queue_query}}</textarea>
+							<small class="form-text text-muted">Do You Know What Are You Doing? Are You Sure?</small>
+						</div>
+					</div>
+					<div class='form col-1'>
+					</div>
+				</div>
+				<div class='form row'>
+					<div class='form col-3'>
+					</div>
+					<div class='form col-3'>
+						<button type='submit' name='submit' class='btn btn-sm btn-outline-success' value='edit'>SUBMIT CHANGES</button>
+					</div>
+					<div class='form col-3'>
+						<button type='submit' name='submit' class="btn btn-sm btn-block btn-outline-purple" value='default'>RESET DEFAULT</button>
+					</div>
+					<div class='form col-3'>
+					</div>
+				</div>
+			</form>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Delete
+		</td>
+		<td>
+			<a href="{{url_for('remove_duty', duty_id=duty.id)}}" class='btn btn-sm btn-outline-danger pt-0 pb-0'>Delete</a>
+		</td>
+	</tr>
+</table>
+</div>
+{%endblock%}

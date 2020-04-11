@@ -1,0 +1,46 @@
+
+.bg-beige-yellow{
+	background-color: #e2cbb0;
+}
+.bg-beige-light{
+	background-color: #d9c2ba;
+}
+.bg-beige-brown{
+	background-color: #9c8481;
+}
+.bg-beige-dark{
+	background-color: #4b3b42;
+}
+.bg-beige-blue{
+	background-color: #98aeb6;
+}
+.text-beige-yellow{
+	color: #e2cbb0;
+}
+.text-beige-light{
+	color: #d9c2ba;
+}
+.text-beige-brown{
+	color: #9c8481;
+}
+.text-beige-dark{
+	color: #4b3b42;
+}
+.text-beige-blue{
+	color: #98aeb6;
+}
+.text-purple{
+	color: #9932CC	
+}
+.text-purple:hover{
+	color: #9932CC	
+}
+.btn-outline-purple {
+  color: #9932CC;
+  border-color: #9932CC;
+}
+.btn-outline-purple:hover {
+  color: #fff;
+  background-color: #9932CC;
+  border-color: #9932CC;
+}

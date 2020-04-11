@@ -1,0 +1,76 @@
+{% extends 'layout.html'%}
+{%block title%}{{current_member.name}}{%endblock%}
+{%block content%}
+<div class='container text-purple'>
+	{% if session['is_logged'] == False %}
+		<h5 class="display-5 text-purple">Login to see your duties!</h5>
+	{% else %}
+		{% if current_member.duties|length() > 0%}
+		<h5 class='display-5 text-purple'>You have {{current_member.duties|length()}} duties to execute:</h5>
+		<table class='table table-light table-striped table-bordered text-center text-purple'>
+			<thead class='thead-dark'> 
+				<tr>
+					<th>
+						Duty Name
+					</th>
+					<th>
+						Duty Description
+					</th>
+					<th>
+						Last Executed
+					</th>
+					<th>
+						Execute
+					</th>
+				</tr>
+			</thead>
+			{%for duty in current_member.duties %}
+			<tr>
+				<td>
+					<a href="{{url_for('duty', duty_id=duty.id)}}" class='badge badge-warning'>{{duty.name}}</a>
+				</td>
+				<td>
+					{{duty.description}}
+				</td>
+				<td>
+					<span class='badge badge-danger'>{{duty.last_execution}}</span>
+				</td>
+				<td>
+					<a href="{{url_for('execute_duty', duty_id=duty.id)}}" class='btn btn-sm btn-outline-purple pt-0 pb-0'>Execute</a>
+				</td>
+			</tr>
+			{%endfor%}
+		</table>
+		{%else%}
+		<h5 class='display-5 text-purple'>You Dont Have Any Duties To Execute! Enjoy :)</h5>
+		{%endif%}
+		{%if current_member.executions|length() > 0%}
+			<hr>
+			<h5 class='display-5 text-purplr'>Your last 3 executions:</h5>
+			<table class='table table-light table-striped table-bordered text-center text-purple'>
+				<thead class='thead thead-dark'>
+					<tr>
+						<th>
+							Duty
+						</th>
+						<th>
+							Execution Time
+						</th>
+					</tr>
+				</thead>
+			{%for execution in current_member.executions[-3:]%}
+				<tr>
+					<td>
+						<a href="{{url_for('duty', duty_id=execution.duty.id)}}" class="badge badge-warning">{{execution.duty.name}}</span>
+					</td>
+
+					<td>
+						<span class="badge badge-danger">{{execution.execution_time}}</span>
+					</td>
+				</tr>
+			{%endfor%}
+			</table>
+		{%endif%}
+	{%endif%}
+</div>
+{%endblock%}
