@@ -30,7 +30,7 @@ def drop():
 
 @app.route('/')
 def home():
-	if session['is_logged']:
+	if session.get('is_logged'):
 		current_member = TeamMember.query.get(session['member_id'])
 	else:
 		current_member = TeamMember(name='Guest')
